@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-1vgfzv)f)m^g!5hspm!ei0xoyrvi-0u%l@t06qu89&1_$m74we
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 ]
 
+INSTALLED_APPS += ['octofit_tracker']
+
+# Add CORS headers middleware
+INSTALLED_APPS += [
+    'corsheaders',
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -48,6 +55,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 
 ROOT_URLCONF = "monafit_tracker.urls"
 
@@ -75,10 +84,14 @@ WSGI_APPLICATION = "monafit_tracker.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "djongo",
+        "NAME": "octofit_db",
     }
 }
+
+
+# Enable CORS for all origins
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Password validation
